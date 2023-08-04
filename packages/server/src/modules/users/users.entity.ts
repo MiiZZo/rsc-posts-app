@@ -17,6 +17,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => UserPost, (post) => post.user)
+  @OneToMany('UserPost', (post: UserPost) => post.user)
   posts: UserPost[]
 }

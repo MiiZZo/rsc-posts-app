@@ -13,8 +13,11 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "common": ["packages/common/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

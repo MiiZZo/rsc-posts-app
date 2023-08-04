@@ -1,3 +1,5 @@
+import { JestConfigWithTsJest } from 'ts-jest';
+
 /* eslint-disable */
 export default {
   displayName: 'server',
@@ -8,4 +10,9 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/server',
-};
+  moduleNameMapper: {
+    "^@modules/(.*)$": ["<rootDir>/src/modules/$1"],
+    "^@shared/(.*)$": ["<rootDir>/src/shared/$1"],
+    "^@common/(.*)$": ["<rootDir>/../common/src/$1"]
+  },
+} as JestConfigWithTsJest;
