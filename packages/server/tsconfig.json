@@ -11,6 +11,12 @@
     }
   ],
   "compilerOptions": {
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@modules/*": ["./packages/server/src/modules/*"],
+      "@shared/*": ["./packages/server/src/shared/*"],
+      "@common/*": ["./packages/common/src/*"]
+    },
   }
 }

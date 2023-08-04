@@ -11,10 +11,6 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@modules/*": ["./packages/server/src/modules/*"],
-      "@shared/*": ["./packages/server/src/shared/*"],
-    }
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
   "include": ["src/**/*.ts"]

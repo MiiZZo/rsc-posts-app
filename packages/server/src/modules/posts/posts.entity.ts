@@ -1,6 +1,6 @@
 import { User } from '@modules/users'
 import { CreateUpdate } from '@shared/typeorm';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class UserPost {
@@ -16,6 +16,10 @@ export class UserPost {
   @Column(() => CreateUpdate)
   createUpdateDates: CreateUpdate;
 
-  @ManyToOne(() => User, (user) => user.posts)
+  @ManyToOne('User', (user: User) => user.posts)
+  @JoinColumn()
   user: User;
+
+  @Column({ nullable: true })
+  userId: string;
 }
