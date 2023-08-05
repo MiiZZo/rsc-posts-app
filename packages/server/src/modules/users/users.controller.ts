@@ -1,4 +1,23 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { UsersService } from './users.service';
 
-@Controller()
-export class UsersController {}
+@Controller('/users')
+export class UsersController {
+  constructor(
+    private usersService: UsersService
+  ) {}
+
+  @Get('/:username')
+  async findOne(
+    @Param('username')
+    username: string
+  ) {
+    const user = await this.usersService.findOne({ username });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return user;
+  }
+}

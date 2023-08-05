@@ -1,7 +1,10 @@
-import { Button } from '@mantine/core';
+import { Button, Container, Input } from '@mantine/core';
 
 export default function Index() {
   return (
-    <Button>Click</Button>
+    <Container>
+      <Button>Click</Button>
+      <Input placeholder="Email" />
+    </Container>
   );
 }

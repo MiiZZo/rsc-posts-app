@@ -9,16 +9,19 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-       <head>
+      <head>
         <ColorSchemeScript />
       </head>
       <body>
-      <MantineProvider theme={{ primaryColor: 'orange' }}>
-        <Header />
-        <Container size="lg">
-          {children}
-        </Container>
-      </MantineProvider>
+        <MantineProvider
+          defaultColorScheme="dark"
+          theme={{
+            primaryColor: 'dark',
+          }}
+        >
+          <Header />
+          <Container size="lg">{children}</Container>
+        </MantineProvider>
       </body>
     </html>
   );

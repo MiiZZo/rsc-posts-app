@@ -1,9 +1,14 @@
-import { Container } from '@mantine/core';
+import { Button, Container, Divider, Group } from '@mantine/core';
 
-export function Header() {
+export async function Header() {
   return (
-    <Container bg="orange" fluid>
-      asdfasdfaf
-    </Container>
+    <>
+      <Container fluid>
+        <Group style={{ height: 64 }} >
+          <Button size="xs">Sign Up</Button>
+        </Group>
+      </Container>
+      <Divider />
+    </>
   );
 }
