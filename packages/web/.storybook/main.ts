@@ -5,7 +5,6 @@ import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
-    'storybook-addon-swc',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     {

@@ -1,6 +1,7 @@
-import '@mantine/core/styles.css';
-import { ColorSchemeScript, Container, MantineProvider } from '@mantine/core';
-import { Header } from 'widgets/header';
+import './global.css';
+import { Inter } from 'next/font/google';
+
+export const inter = Inter({ subsets: ['latin'] });
 
 export default async function RootLayout({
   children,
@@ -9,19 +10,8 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <ColorSchemeScript />
-      </head>
       <body>
-        <MantineProvider
-          defaultColorScheme="dark"
-          theme={{
-            primaryColor: 'dark',
-          }}
-        >
-          <Header />
-          <Container size="lg">{children}</Container>
-        </MantineProvider>
+        null
       </body>
     </html>
   );
