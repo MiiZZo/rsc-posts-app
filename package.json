@@ -13,6 +13,8 @@
   },
   "private": true,
   "dependencies": {
+    "@mantine/core": "7.0.0-alpha.21",
+    "@mantine/hooks": "7.0.0-alpha.21",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
@@ -79,6 +81,7 @@
     "nx": "16.6.0",
     "nx-cloud": "latest",
     "postcss": "^8.4.27",
+    "postcss-preset-mantine": "^1.7.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^2.6.2",
     "react-icons": "4.10.1",

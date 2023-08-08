@@ -1,4 +1,3 @@
-import '../app/global.css';
 import './index.css';
 
 import { Preview, Decorator } from '@storybook/react';
