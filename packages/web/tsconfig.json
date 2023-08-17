@@ -21,7 +21,8 @@
       "entities/*": ["./packages/web/src/shared/*"],
       "features/*": ["./packages/web/src/features/*"],
       "widgets/*": ["./packages/web/src/widgets/*"],
-      "styled/*": ["./packages/web/src/shared/styled-system/*"]
+      "styled/*": ["./packages/web/src/shared/styled-system/*"],
+      "common/*": ["./packages/common/src/*"]
     },
     "types": ["jest", "node"]
   },

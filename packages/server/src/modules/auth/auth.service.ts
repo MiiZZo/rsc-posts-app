@@ -26,7 +26,7 @@ export class AuthService {
 
   async signUp(signUp: SignUp) {
     const user = await this.usersService.findOne(signUp);
-    if (user && ) {
+    if (!user) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user.id, username: user.username };

@@ -1,11 +1,14 @@
+import { z } from 'zod';
 import { AtLeastOne } from '../utility-types';
 
-export interface Post {
-  id: string;
-  title: string;
-  body: string;
-  userId: string;
-}
+export const post = z.object({
+  id: z.string(),
+  title: z.string(),
+  body: z.string(),
+  userId: z.string(),
+});
+
+export type Post = z.infer<typeof post>;
 
 export interface CreateOnePost {
   title: string;

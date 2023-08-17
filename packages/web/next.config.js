@@ -13,7 +13,6 @@ const nextConfig = {
     svgr: false,
   },
 };
-
 const plugins = [
   // Add more Next.js plugins to this list if needed.
   withNx,

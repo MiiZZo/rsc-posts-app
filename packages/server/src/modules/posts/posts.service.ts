@@ -12,7 +12,11 @@ export class PostsService {
   ) {}
 
   async getOne({ id }: FindOnePost) {
-    return await this.postsRepository.findOne({ where: { id } });
+    try {
+      return await this.postsRepository.findOne({ where: { id } });
+    } catch (e) {
+      return null;
+    }
   }
 
   async createOne({ body, title, userId }: CreateOnePost) {
