@@ -6,14 +6,13 @@ import {
   Anchor,
   TextInput,
   PasswordInput,
-  Group,
-  Checkbox,
   Button,
   Stack,
 } from '@mantine/core';
 import { reflect } from '@effector/reflect';
 import * as model from '../model';
 import Link from 'next/link';
+import { PropsWithChildren } from 'react';
 
 const EmailField = reflect({
   view: TextInput,
@@ -47,7 +46,7 @@ interface Props {
   onSubmit: () => void;
 }
 
-export function SignUpFormView({ onSubmit }: Props) {
+export function SignUpFormView({ isSubmitting, children, onSubmit }: PropsWithChildren<Props>) {
   return (
     <Container size={420} my={40}>
       <Title ta="center">Create your account</Title>
@@ -58,6 +57,7 @@ export function SignUpFormView({ onSubmit }: Props) {
         </Anchor>
       </Text>
       <form
+        name="create-account"
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit();
@@ -65,19 +65,9 @@ export function SignUpFormView({ onSubmit }: Props) {
       >
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <Stack>
-            <EmailField label="Email" placeholder="you@mantine.dev" required />
-            <UsernameField
-              label="Username"
-              placeholder="Your username"
-              required
-            />
-            <PasswordField
-              label="Password"
-              placeholder="Your password"
-              required
-            />
+            {children}
           </Stack>
-          <Button type="submit" fullWidth mt="xl">
+          <Button disabled={isSubmitting} type="submit" fullWidth mt="xl">
             Create account
           </Button>
         </Paper>
@@ -89,6 +79,21 @@ export function SignUpFormView({ onSubmit }: Props) {
 export const SignUpForm = reflect({
   view: SignUpFormView,
   bind: {
+    children: (
+      <>
+        <EmailField label="Email" placeholder="you@mantine.dev" required />
+        <UsernameField
+          label="Username"
+          placeholder="Your username"
+          required
+        />
+        <PasswordField
+          label="Password"
+          placeholder="Your password"
+          required
+        />
+      </>
+    ),
     isSubmitting: model.signUpQuery.$isPending,
     onSubmit: model.signUpForm.submit,
   },
