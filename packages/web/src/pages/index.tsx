@@ -1,8 +1,5 @@
-import { allSettled, fork, serialize } from 'effector';
-import { GetServerSideProps } from 'next';
-
-import { api } from 'shared/api';
 import { ToggleTheme } from './_toggle-theme';
+import { GSSFactory } from 'shared/nextjs';
 
 export default function Index() {
  return (
@@ -10,21 +7,6 @@ export default function Index() {
  );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const scope = fork();
-
-  await allSettled(api.posts.getOneQuery.start, {
-    scope,
-    params: {
-      params: {
-        id: '2',
-      },
-    },
-  });
-
-  return {
-    props: {
-      values: serialize(scope),
-    },
-  };
-};
+export const { getServerSideProps } = GSSFactory({
+  isProtectedRoute: true,
+});
