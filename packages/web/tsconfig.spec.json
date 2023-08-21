@@ -1,13 +1,18 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
-    "types": ["jest", "node"],
-    "jsx": "react"
+    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node"],
+    "paths": {
+      "shared/*": ["./packages/web/src/shared/*"],
+      "entities/*": ["./packages/web/src/entities/*"],
+      "features/*": ["./packages/web/src/features/*"],
+      "widgets/*": ["./packages/web/src/widgets/*"],
+      "common/*": ["./packages/common/src/*"]
+    },
   },
   "include": [
-    "jest.config.ts",
+    "vite.config.ts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.tsx",
@@ -17,5 +22,5 @@
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
     "src/**/*.d.ts"
-  ]
+  ],
 }

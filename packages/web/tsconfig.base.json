@@ -25,22 +25,6 @@
     },
     "types": ["node", "vitest"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "../../packages/web/.next/types/**/*.ts",
-    "../../dist/packages/web/.next/types/**/*.ts",
-    "next-env.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    "**/*.stories.ts",
-    "**/*.stories.js"
-  ],
   "references": [
     {
       "path": "./tsconfig.storybook.json",
