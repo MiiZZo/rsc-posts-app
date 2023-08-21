@@ -10,6 +10,15 @@ export const post = z.object({
 
 export type Post = z.infer<typeof post>;
 
+export const user = z.object({
+  id: z.string(),
+  username: z.string().min(2, 'Username must contains at least 2 symbols.'),
+  email: z.string().email('Must be a valid email.'),
+  password: z.string().min(8, 'Password must contains at least 8 symbols.'),
+});
+
+export type User = z.infer<typeof user>;
+
 export interface CreateOnePost {
   title: string;
   body: string;
@@ -27,14 +36,6 @@ export interface UpdateOnePost {
 export interface FindOnePost {
   id: string;
 }
-
-export interface User {
-  id: string;
-  username: string;
-  password: string;
-  email: string;
-}
-
 export type FindOneUser = AtLeastOne<Pick<User, "username" | "email" | "id">>;
 export interface SignIn {
   username: string;
