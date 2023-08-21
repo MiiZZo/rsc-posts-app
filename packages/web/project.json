@@ -43,10 +43,9 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
+      "executor": "@nx/vite:test",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/web/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
