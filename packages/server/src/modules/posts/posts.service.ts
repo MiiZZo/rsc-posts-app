@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserPost } from './posts.entity';
-import { CreateOnePost, RemoveOnePost, UpdateOnePost, GetOnePost } from '@common/types';
+import { CreateOnePost, RemoveOnePost, UpdateOnePost, FindOnePost } from '@common/types';
 
 @Injectable()
 export class PostsService {
@@ -11,8 +11,12 @@ export class PostsService {
     private postsRepository: Repository<UserPost>
   ) {}
 
-  async getOne({ id }: GetOnePost) {
-    return await this.postsRepository.findOne({ where: { id } });
+  async getOne({ id }: FindOnePost) {
+    try {
+      return await this.postsRepository.findOne({ where: { id } });
+    } catch (e) {
+      return null;
+    }
   }
 
   async createOne({ body, title, userId }: CreateOnePost) {

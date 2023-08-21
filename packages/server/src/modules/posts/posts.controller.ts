@@ -1,22 +1,42 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post, RequestMapping, Res, HttpStatus } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreateOnePost, UpdateOnePost } from '@common/types';
+import { contract } from '@common/contract';
+import { InferResponsesTypes } from '@simple-contract/core';
+import { mapRequest } from '@shared/pipes';
+import { Response } from 'express';
 
-@Controller('/posts')
+const { routes } = contract.posts;
+const {
+  getOne,
+  updateOne
+} = routes;
+
+type Responses = InferResponsesTypes<typeof contract.posts.routes>;
+type OneOf<T> = T[keyof T];
+@Controller(contract.posts.path)
 export class PostsController {
   constructor(
     private postsService: PostsService
   ) {}
-
-  @Get('/:id')
+  
+  @RequestMapping(mapRequest(getOne))
   async getOne(
     @Param('id')
-    id: string
-  ) {
+    id: string,
+    @Res({ passthrough: true })
+    res: Response
+  ): Promise<OneOf<Responses['getOne']>> {
     const post = await this.postsService.getOne({ id });
-
+    
     if (!post) {
-      throw new NotFoundException();
+      res.status(HttpStatus.NOT_FOUND);
+
+      return ({
+        error: {
+          type: 'NOT_FOUND',
+        }
+      });
     }
 
     return post;

@@ -1,9 +1,8 @@
-import { Container } from '@mantine/core';
 
-export function Header() {
+export async function Header() {
   return (
-    <Container bg="orange" fluid>
-      asdfasdfaf
-    </Container>
+    <>
+      null
+    </>
   );
 }

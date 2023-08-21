@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PostsModule, UserPost } from '@modules/posts';
 import { User, UsersModule } from '@modules/users';
 import path from 'path';
+import { AuthModule } from '@modules/auth';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,6 +23,7 @@ import path from 'path';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
     UsersModule,
     PostsModule,
   ],
