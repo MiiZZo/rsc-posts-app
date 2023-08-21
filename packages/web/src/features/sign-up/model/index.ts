@@ -2,6 +2,7 @@ import { createForm } from '@effective-forms/core';
 import { zodSchema } from '@effective-forms/zod';
 import { user } from 'common/types';
 import { sample } from 'effector';
+import { config } from '../config';
 import { api } from 'shared/api';
 import { notificationsModel } from 'shared/notifications';
 import { routerModel } from 'shared/router';
@@ -28,7 +29,7 @@ sample({
 
 sample({
   clock: signUpQuery.finished.success.event,
-  fn: () => ({ message: 'Your account has been created! Now you can sign in.', color: 'green' }),
+  fn: () => ({ message: config.SUCCESS_SIGN_UP_MESSAGE, color: 'green' }),
   target: [
     notificationsModel.notifyFx,
     signUpForm.cleared,
@@ -38,12 +39,12 @@ sample({
 
 sample({
   clock: signUpQuery.finished.emailBusy.event,
-  fn: () => ({ message: 'This email is already in use.', color: 'red' }),
+  fn: () => ({ message: config.EMAIL_BUSY_MESSAGE, color: 'red' }),
   target: notificationsModel.notifyFx,
 });
 
 sample({
   clock: signUpQuery.finished.usernameBusy.event,
-  fn: () => ({ message: 'This username is already in use.', color: 'red' }),
+  fn: () => ({ message: config.USERNAME_BUSY_MESSSAGE, color: 'red' }),
   target: notificationsModel.notifyFx,
 });
