@@ -18,10 +18,9 @@
     ],
     "paths": {
       "shared/*": ["./packages/web/src/shared/*"],
-      "entities/*": ["./packages/web/src/shared/*"],
+      "entities/*": ["./packages/web/src/entities/*"],
       "features/*": ["./packages/web/src/features/*"],
       "widgets/*": ["./packages/web/src/widgets/*"],
-      "styled/*": ["./packages/web/src/shared/styled-system/*"],
       "common/*": ["./packages/common/src/*"]
     },
     "types": ["jest", "node"]
