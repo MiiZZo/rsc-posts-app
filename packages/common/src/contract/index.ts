@@ -1,17 +1,37 @@
 import { createContract } from '@simple-contract/core';
-import { post, user } from '../types';
+import { post, publicUser, user } from '../types';
 import { z } from 'zod';
 
 export const contract = createContract('http://localhost:3000', {
+  users: {
+    path: '/users',
+    routes: {
+      getOne: {
+        path: '/:username',
+        method: 'GET',
+        params: z.object({ username: z.string() }),
+        responses: {
+          success: publicUser,
+          notFound: z.object({
+            error: z.object({
+              type: z.literal('NOT_FOUND'),
+            }),
+          }),
+        }
+      },
+    },
+  },
   auth: {
     path: '/auth',
     routes: {
       signUp: {
         path: '/sign-up',
         method: 'POST',
-        body: user.omit({ id: true }),
+        body: user.pick({ username: true, email: true, password: true }),
         responses: {
-          success: user,
+          success: z.object({
+            result: z.literal(true),
+          }),
           emailBusy: z.object({
             error: z.object({
               type: z.literal('EMAIL_BUSY'),
@@ -27,7 +47,7 @@ export const contract = createContract('http://localhost:3000', {
       signIn: {
         path: '/sign-in',
         method: 'POST',
-        body: user.omit({ id: true, email: true }),
+        body: user.pick({ username: true, password: true }),
         responses: {
           success: z.object({ accessToken: z.string() }),
           badRequest: z.object({
@@ -42,31 +62,39 @@ export const contract = createContract('http://localhost:3000', {
   posts: {
     path: '/posts',
     routes: {
+      createOne: {
+        method: 'POST',
+        body: post.pick({ title: true, body: true, }),
+        responses: {
+          success: post,
+        },
+      },
       getOne: {
         path: '/:id',
         method: 'GET',
-        params: z.object({
-          id: z.string().uuid(),
-        }),
         responses: {
           success: post,
           notFound: z.object({
             error: z.object({
               type: z.literal('NOT_FOUND'),
-            }),
-          }),
-          badRequest: z.object({
-            error: z.object({
-              type: z.literal('BAD_REQUEST')
-            }),
+            })
+          })
+        },
+        params: z.object({ id: z.string() }),
+      },
+      getMany: {
+        method: 'GET',
+        query: z.object({
+          take: z.number(),
+          skip: z.number(),
+        }),
+        responses: {
+          success: z.object({
+            posts: z.array(post),
+            count: z.number().int(),
           }),
         },
-      },
-      updateOne: {
-        path: '/:id',
-        method: 'GET',
-        responses: {},
-      }  
+      }
     },
   },
 });
