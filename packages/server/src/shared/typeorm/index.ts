@@ -1,2 +1,2 @@
-export { CreateUpdate } from './create-update-dates-embedded';
+export { BaseEntity } from './base.entitiy';
 export { DBConfigService } from './typeorm.service';

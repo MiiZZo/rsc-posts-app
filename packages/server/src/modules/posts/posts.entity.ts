@@ -1,9 +1,9 @@
 import { User } from '@modules/users'
-import { CreateUpdate } from '@shared/typeorm';
+import { BaseEntity } from '@shared/typeorm';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class UserPost {
+export class UserPost extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -12,9 +12,6 @@ export class UserPost {
 
   @Column()
   body: string;
-
-  @Column(() => CreateUpdate)
-  createUpdateDates: CreateUpdate;
 
   @ManyToOne('User', (user: User) => user.posts)
   @JoinColumn()
