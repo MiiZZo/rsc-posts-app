@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UsersModule } from '@modules/users';
-import { UsersService } from '@modules/users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { UsersModule } from '@modules/users';
+import { UsersService } from '@modules/users/users.service';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 @Module({
   imports: [
     ConfigModule,
