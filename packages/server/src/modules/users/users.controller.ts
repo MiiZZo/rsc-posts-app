@@ -12,7 +12,7 @@ export class UsersController {
     @Param('username')
     username: string
   ) {
-    const user = await this.usersService.findOne({ username });
+    const user = await this.usersService.findOne({ where: { username } });
 
     if (!user) {
       throw new NotFoundException();

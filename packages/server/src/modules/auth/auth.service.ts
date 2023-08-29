@@ -14,17 +14,16 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<User>
   ) {}
 
-  async signIn({
-    username,
-    password,
-  }: SignIn) {
-    const user = await this.usersService.findOne({ username });
+  async signIn({ username, password }: SignIn) {
+    const user = await this.usersService.findOne({
+      where: { username },
+      select: { id: true, email: true, username: true, password: true },
+    });
 
     if (user) {
-
       const passwordsMatched = await bcrypt.compare(password, user.password);
 
       if (passwordsMatched) {
@@ -39,8 +38,14 @@ export class AuthService {
     return null;
   }
 
-  async signUp({ email, password, username }: SignUp): Promise<SignUpResponses> {
-    const userWithTheSameEmail = await this.usersService.findOne({ email });
+  async signUp({
+    email,
+    password,
+    username,
+  }: SignUp): Promise<SignUpResponses> {
+    const userWithTheSameEmail = await this.usersService.findOne({
+      where: { email },
+    });
 
     if (userWithTheSameEmail) {
       return {
@@ -50,18 +55,26 @@ export class AuthService {
       };
     }
 
-    const userWithTheSameUsername = await this.usersService.findOne({ username });
+    const userWithTheSameUsername = await this.usersService.findOne({
+      where: { username },
+    });
 
     if (userWithTheSameUsername) {
       return {
         error: {
-          type: 'USERNAME_BUSY'
+          type: 'USERNAME_BUSY',
         },
       };
     }
-    const user = await this.usersRepository.create({ email, password, username });
-    const savedUser = await this.usersRepository.save(user);
+    const user = await this.usersRepository.create({
+      email,
+      password,
+      username,
+    });
+    await this.usersRepository.save(user);
 
-    return savedUser;
+    return {
+      result: true,
+    };
   }
 }
