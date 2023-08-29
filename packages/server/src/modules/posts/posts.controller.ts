@@ -1,70 +1,65 @@
-import { Body, Controller, Delete, Param, Patch, Post, RequestMapping, Res, HttpStatus } from '@nestjs/common';
-import { PostsService } from './posts.service';
-import { CreateOnePost, UpdateOnePost } from '@common/types';
+import { Body, Controller, Param, Query, Req, RequestMapping, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { contract } from '@common/contract';
-import { InferResponsesTypes } from '@simple-contract/core';
+import { AuthGuard } from '@modules/auth';
 import { mapRequest } from '@shared/pipes';
-import { Response } from 'express';
+import * as config from './posts.config';
+import { PostsService } from './posts.service';
 
-const { routes } = contract.posts;
-const {
-  getOne,
-  updateOne
-} = routes;
-
-type Responses = InferResponsesTypes<typeof contract.posts.routes>;
-type OneOf<T> = T[keyof T];
 @Controller(contract.posts.path)
 export class PostsController {
   constructor(
     private postsService: PostsService
   ) {}
-  
-  @RequestMapping(mapRequest(getOne))
+
+  @UseGuards(AuthGuard)
+  @RequestMapping(
+    mapRequest({
+      method: config.createOne.method
+    })
+  )
+  async createOne(
+    @Req()
+    req: Request,
+    @Body()
+    createPost: config.CreateOnePostBody
+  ) {
+    return await this.postsService.createOne({ ...createPost, userId: req.user!.sub });
+  }
+
+  @RequestMapping(
+    mapRequest(
+      config.getOne,
+    )
+  )
   async getOne(
     @Param('id')
-    id: string,
-    @Res({ passthrough: true })
-    res: Response
-  ): Promise<OneOf<Responses['getOne']>> {
-    const post = await this.postsService.getOne({ id });
-    
-    if (!post) {
-      res.status(HttpStatus.NOT_FOUND);
+    id: string
+  ): Promise<config.GetOnePostResponses> {
+    const post = await this.postsService.findOne({ id });
 
-      return ({
+    if (!post) {
+      return {
         error: {
-          type: 'NOT_FOUND',
-        }
-      });
+          type: 'NOT_FOUND'
+        },
+      };
     }
 
     return post;
   }
 
-  @Post()
-  async createOne(
-    @Body()
-    createPost: CreateOnePost
-  ) {
-    return await this.postsService.createOne(createPost);
+  @RequestMapping(
+    mapRequest(
+      config.getMany,
+    )
+  )
+  async getMany(
+    @Query('take')
+    take: number,
+    @Query('skip')
+    skip: number
+  ): Promise<config.GetManyResponses> {
+    return this.postsService.findMany({ query: { take, skip } });
   }
-
-  @Delete('/:id')
-  async removeOne(
-    @Param('id')
-    id: string
-  ) {
-    return await this.postsService.removeOne({ id });
-  }
-  
-  @Patch('/:id')
-  async updateOne(
-    @Param('id')
-    id: string,
-    @Body()
-    body: UpdateOnePost
-  ) {
-    return await this.postsService.updateOne({ id, post: body.post })
-  } 
 }
