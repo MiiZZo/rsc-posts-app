@@ -2,7 +2,6 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
-const { paths } = require('./src/shared/navigation');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
@@ -20,7 +19,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: paths.feed({ page: 1 }),
+        destination: '/feed/1',
         permanent: true,
       }
     ]
