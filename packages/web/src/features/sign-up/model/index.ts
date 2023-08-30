@@ -1,22 +1,39 @@
+import { createStore, sample } from 'effector';
 import { createForm } from '@effective-forms/core';
 import { zodSchema } from '@effective-forms/zod';
+import { debounce } from 'patronum/debounce';
 import { user } from 'common/types';
-import { sample } from 'effector';
-import { config } from '../config';
 import { api } from 'shared/api';
 import { notificationsModel } from 'shared/notifications';
 import { routerModel } from 'shared/router';
+import { config } from '../config';
 
 export const { signUpQuery } = api.auth;
 
+const queryFinished = sample({
+  clock: [
+    signUpQuery.finished.emailBusy.event,
+    signUpQuery.finished.usernameBusy.event,
+    signUpQuery.finished.success.event,
+  ],
+});
+
+export const formSubmittingEnded = debounce({
+  source: queryFinished,
+  timeout: 300,
+});
+
+export const $isFormSubmitting = createStore(false);
+
 export const signUpForm = createForm(
   zodSchema({
-    schema: user.omit({ id: true }),
+    schema: user.pick({ email: true, password: true, username: true }),
     initialValues: {
       email: '',
       password: '',
       username: '',
     },
+    clearOn: [signUpQuery.finished.success.event]
   }),
 );
 
@@ -28,11 +45,22 @@ sample({
 });
 
 sample({
+  clock: signUpQuery.start,
+  fn: () => true,
+  target: $isFormSubmitting,
+});
+
+sample({
+  clock: formSubmittingEnded,
+  fn: () => false,
+  target: $isFormSubmitting,
+});
+
+sample({
   clock: signUpQuery.finished.success.event,
   fn: () => ({ message: config.SUCCESS_SIGN_UP_MESSAGE, color: 'green' }),
   target: [
     notificationsModel.notifyFx,
-    signUpForm.cleared,
     routerModel.navigateFx.prepend(() => '/sign-in')
   ],
 });
