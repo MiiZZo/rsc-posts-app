@@ -1,6 +1,6 @@
 import { createContract } from '@simple-contract/core';
-import { post, publicUser, user } from '../types';
 import { z } from 'zod';
+import { post, postComment, publicUser, user } from '../types';
 
 export const contract = createContract('http://localhost:3000', {
   users: {
@@ -95,6 +95,34 @@ export const contract = createContract('http://localhost:3000', {
           }),
         },
       }
+    },
+  },
+  comments: {
+    path: '/posts/:postId/comments',
+    routes: {
+      getMany: {
+        method: 'GET',
+        query: z.object({
+          skip: z.number(),
+          take: z.number(),
+        }),
+        responses: {
+          succses: z.object({
+            comments: z.array(postComment),
+            count: z.number(),
+          }),
+        }
+      },
+      createOne: {
+        method: 'POST',
+        params: z.object({
+          postId: z.string(),
+        }),
+        body: postComment.pick({ body: true }),
+        responses: {
+          success: postComment,
+        },
+      },
     },
   },
 });
