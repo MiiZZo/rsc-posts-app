@@ -49,10 +49,12 @@ export default function PostPage() {
 }
 
 export const getServerSideProps = GSSFactory({
-  pageEvent: model.pageOpened,
+  pageEvent: model.getOneQuery.start,
   getParams: (ctx) => {
     return {
-      id: ctx.params!.id as string,
+      params: {
+        id: ctx.params!.id as string,
+      }
     };
   },
   validateResult: {
