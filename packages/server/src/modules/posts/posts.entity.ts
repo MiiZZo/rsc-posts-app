@@ -1,6 +1,7 @@
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { PostComment } from '@modules/post-comments';
 import { User } from '@modules/users'
 import { BaseEntity } from '@shared/typeorm';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class UserPost extends BaseEntity {
@@ -19,4 +20,7 @@ export class UserPost extends BaseEntity {
 
   @Column({ nullable: true })
   userId: string;
+
+  @OneToMany('Comment', (comment: PostComment) => comment.post)
+  comments: PostComment[];
 }
