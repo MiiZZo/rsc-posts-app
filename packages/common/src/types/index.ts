@@ -1,23 +1,33 @@
 import { z } from 'zod';
 import { AtLeastOne } from '../utility-types';
 
+const BASE_FIELD = {
+  createdAt: z.string(),
+  updatedAt: z.string(),
+};
+
+export const user = z.object({
+  id: z.string(),
+  username: z.string().min(2, 'Username must contains at least 2 symbols.').regex(/^[a-zA-Z]+$/, 'Username must contains only letters'),
+  email: z.string().email('Must be a valid email.'),
+  password: z.string().min(8, 'Password must contains at least 8 symbols.'),
+  ...BASE_FIELD,
+});
+
+export const publicUser = user.omit({ password: true });
+
+export type User = z.infer<typeof user>;
+export type PublicUser = z.infer<typeof publicUser>;
+
 export const post = z.object({
   id: z.string(),
   title: z.string(),
   body: z.string(),
-  userId: z.string(),
+  user: user.pick({ id: true, email: true, username: true, }),
+  ...BASE_FIELD,
 });
 
 export type Post = z.infer<typeof post>;
-
-export const user = z.object({
-  id: z.string(),
-  username: z.string().min(2, 'Username must contains at least 2 symbols.'),
-  email: z.string().email('Must be a valid email.'),
-  password: z.string().min(8, 'Password must contains at least 8 symbols.'),
-});
-
-export type User = z.infer<typeof user>;
 
 export interface CreateOnePost {
   title: string;

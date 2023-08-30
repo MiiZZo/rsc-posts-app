@@ -1,6 +1,6 @@
 import { FindOneUser } from '@common/types';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -12,10 +12,12 @@ export class UsersService {
   ) {}
   
   async findOne({
-    username,
-    email,
-    id,
-  }: FindOneUser) {
-    return await this.usersRepository.findOne({ where: { username, email, id } });
+    where,
+    select
+  }: {
+    where: Partial<FindOneUser>;
+    select?: FindOneOptions<User>['select']
+  }) {
+    return await this.usersRepository.findOne({ where, select });
   }
 }

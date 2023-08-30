@@ -1,0 +1,45 @@
+.avatar {
+  border-radius: var(--mantine-radius-md);
+  user-select: none;
+
+  background-image: linear-gradient(45deg, var(--mantine-color-blue-filled) 0%, var(--mantine-color-green-filled) 100%);
+  box-shadow: var(--mantine-shadow-lg);
+
+  &__text {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &_size {
+      &-lg {
+        font-size: var(--mantine-h1-font-size);
+      }
+
+      &-md {
+        font-size: var(--mantine-font-size-lg);
+      }
+
+      &-xs {
+        font-size: var(--mantine-font-size-xs);
+      }
+    }
+  }
+
+  &_size {
+    &-lg {
+      width: rem(100);
+      height: rem(100);
+   
+    }
+
+    &-md {
+      width: rem(40);
+      height: rem(40);
+    }
+
+    &-xs {
+      width: rem(30);
+      height: rem(30);
+    }
+  }
+}
