@@ -8,7 +8,9 @@ import Head from 'next/head';
 import { StrictMode } from 'react';
 import { AnimatePresence, LazyMotion, domAnimation } from 'framer-motion';
 import { Header } from 'widgets/header';
+import { themeLib } from 'shared/ui/theme';
 import './index.css';
+import { RouterEmitter } from 'shared/router';
 
 export default function App({
   Component,
@@ -17,7 +19,7 @@ export default function App({
   return (
     <StrictMode>
       <MantineProvider
-        theme={{ fontFamily: 'Inter', cursorType: 'pointer' }}
+        theme={themeLib.theme}
       >
         <Head>
           <meta
@@ -29,6 +31,7 @@ export default function App({
         </Head>
         <Notifications position="top-center" />
         <EffectorNext values={values}>
+          <RouterEmitter />
           <LazyMotion features={domAnimation} strict>
             <AnimatePresence mode="wait" initial={false}>
               <AppShell header={{ height: rem(50) }} padding="lg">
