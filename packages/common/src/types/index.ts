@@ -31,9 +31,8 @@ export type Post = z.infer<typeof post>;
 
 export const postComment = z.object({
   id: z.string(),
-  body: z.string().max(255, 'Comment must contain no more than 255 characters.').min(10, 'Comment must contains at least 10 symbols.'),
+  body: z.string().max(255, 'Comment must contain no more than 255 characters.').min(5, 'Comment must contains at least 5 symbols.'),
   user: publicUser,
-  post,
   ...BASE_FIELD,
 });
 
