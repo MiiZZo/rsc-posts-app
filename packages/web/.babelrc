@@ -1,6 +1,6 @@
 {
   "presets": ["next/babel"],
   "plugins": [
-    ["effector/babel-plugin"]
+    ["effector/babel-plugin", { "factories": ["@withease/factories"] }]
   ]
 }
