@@ -21,6 +21,6 @@ export class UserPost extends BaseEntity {
   @Column({ nullable: true })
   userId: string;
 
-  @OneToMany('Comment', (comment: PostComment) => comment.post)
+  @OneToMany('PostComment', (comment: PostComment) => comment.post)
   comments: PostComment[];
 }

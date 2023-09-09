@@ -32,7 +32,7 @@ export class PostsService {
 
   async findMany({ query: { take, skip } }: config.GetManyParams) {
     const [posts, count] = await this.postsRepository.findAndCount({ take, skip, relations: { user: true }, order: { createdAt: 'DESC' } });
-    console.log(posts, count);
+
     return {
       posts,
       count,

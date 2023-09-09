@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PostsModule, UserPost } from '@modules/posts';
-import { User, UsersModule } from '@modules/users';
+import { PostsModule } from '@modules/posts';
+import { UsersModule } from '@modules/users';
 import path from 'path';
 import { AuthModule } from '@modules/auth';
+import { CommentsModule } from '@modules/post-comments';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +24,7 @@ import { AuthModule } from '@modules/auth';
       }),
       inject: [ConfigService],
     }),
+    CommentsModule,
     AuthModule,
     UsersModule,
     PostsModule,

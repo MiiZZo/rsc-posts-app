@@ -11,12 +11,42 @@ export class CommentsService {
     private commentsRepository: Repository<PostComment>
   ) {}
 
-  async createOne({ id, userId, body }: config.CreateOnePayload & { userId: string }): Promise<config.CreateOneResponses> {
-    return await this.commentsRepository.save(
+  async createOne({ postId, userId, body }: config.CreateOnePayload & { userId: string }): Promise<config.CreateOneResponses> {
+    const comment = await this.commentsRepository.save(
       this.commentsRepository.create({
         body,
-        
+        post: {
+          id: postId,
+        },
+        user: {
+          id: userId
+        }
       })
-    )
+    );
+
+    return (await this.commentsRepository.findOne({ where: { id: comment.id }, relations: { user: true } }))!;
+  }
+
+  async findMany({ postId, skip, take }: config.GetManyPayload): Promise<config.GetManyResponses> {
+    const [comments, count] = await this.commentsRepository.findAndCount({
+      where: {
+        post: {
+          id: postId,
+        },
+      },
+      relations: {
+        user: true,
+      },
+      take,
+      skip,
+      order: {
+        createdAt: 'DESC'
+      }
+    });
+
+    return {
+      comments,
+      count,
+    };
   }
 }

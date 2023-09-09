@@ -1,8 +1,8 @@
-import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '@modules/users';
 import { BaseEntity } from '@shared/typeorm';
 import { UserPost } from '@modules/posts';
-
+@Entity()
 export class PostComment extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,6 +17,6 @@ export class PostComment extends BaseEntity {
   @Column({ nullable: true })
   userId: string;
 
-  @ManyToOne('Post', (post: UserPost) => post.comments)
+  @ManyToOne('UserPost', (post: UserPost) => post.comments)
   post: UserPost;
 }
