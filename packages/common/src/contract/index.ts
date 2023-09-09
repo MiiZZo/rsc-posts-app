@@ -102,12 +102,15 @@ export const contract = createContract('http://localhost:3000', {
     routes: {
       getMany: {
         method: 'GET',
+        params: z.object({
+          postId: z.string(),
+        }),
         query: z.object({
           skip: z.number(),
           take: z.number(),
         }),
         responses: {
-          succses: z.object({
+          success: z.object({
             comments: z.array(postComment),
             count: z.number(),
           }),
