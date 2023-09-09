@@ -1,35 +1,19 @@
-import './index.css';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
+import '../src/pages/index.css';
+import { MantineProvider } from '@mantine/core';
+import { themeLib } from 'shared/ui/theme';
 
-import { Preview, Decorator } from '@storybook/react';
-import { Inter } from 'next/font/google';
-import { useEffect } from 'react';
+import { Decorator, Preview } from '@storybook/react';
 
-const inter = Inter({ subsets: ['latin'] })
-
-const useTheme: Decorator = (Story, { globals: { theme } }) => {
-  useEffect(() => {
-    document.body.setAttribute('data-theme', theme);
-    document.body.classList.add(inter.className);
-  }, [theme]);
-
-  return (
+const withMantine: Decorator = (Story) => (
+  <MantineProvider theme={themeLib.theme}>
     <Story />
-  );
-};
-
-export const globalTypes = {
-  theme: {
-    name: 'Theme',
-    defaultValue: 'light',
-    toolbar: {
-      items: [{ value: 'light', title: '☀️Light' }, { value: 'dark', title: '🌑Dark' }],
-      dynamicTitle: true,
-    },
-  },
-}
+  </MantineProvider>
+)
 
 const preview: Preview = {
-  decorators: [useTheme],
+  decorators: [withMantine],
 };
 
 export default preview;
